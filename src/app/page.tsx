@@ -300,7 +300,7 @@ export default function Home() {
       <section id="galeria" className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center">
-            <span className="text-amber-400">Galería</span> de momentos
+            <span className="text-amber-400">Galería</span> de gnomomentos
           </h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
