@@ -16,7 +16,7 @@ export default function Home() {
       <nav className="relative z-20 py-4 px-6 flex justify-between items-center">
         <div className="flex items-center">
           <Image 
-            src="/logo-gnomo-awards.svg" 
+            src="/kHF6v901.png" 
             alt="Logo GnomoAwards" 
             width={50} 
             height={50} 
@@ -37,7 +37,7 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 px-6 flex flex-col items-center justify-center text-center">
-        <div className="absolute inset-0 z-10 bg-cover bg-center opacity-20" style={{ backgroundImage: 'url(/fondo-bosque.jpg)' }}></div>
+        <div className="absolute inset-0 z-10 bg-cover bg-center opacity-20" style={{ backgroundImage: 'url(https://images.pexels.com/photos/1671324/pexels-photo-1671324.jpeg)' }}></div>
         <div className="relative z-20 max-w-5xl mx-auto">
           <h1 className="text-4xl md:text-7xl font-extrabold mb-4">
             <span className="text-amber-400">GNOMO</span>AWARDS
@@ -130,10 +130,10 @@ export default function Home() {
           <div className="md:w-1/2 flex justify-center">
             <div className="relative w-64 h-64">
               <Image
-                src="/trofeo-gnomo.png"
+                src="https://images.pexels.com/photos/4205984/pexels-photo-4205984.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 alt="Trofeo GnomoAwards"
                 fill
-                className="object-contain"
+                className="object-contain rounded-lg"
               />
             </div>
           </div>
@@ -305,22 +305,22 @@ export default function Home() {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div className="relative h-64 rounded-lg overflow-hidden">
-              <Image src="/gallery-1.jpg" alt="Momento destacado" fill className="object-cover hover:scale-105 transition duration-300" />
+              <Image src="https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg" alt="Supervivencia en la naturaleza" fill className="object-cover hover:scale-105 transition duration-300" />
             </div>
             <div className="relative h-64 rounded-lg overflow-hidden">
-              <Image src="/gallery-2.jpg" alt="Momento destacado" fill className="object-cover hover:scale-105 transition duration-300" />
+              <Image src="https://images.pexels.com/photos/6271625/pexels-photo-6271625.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Construcción de refugio" fill className="object-cover hover:scale-105 transition duration-300" />
             </div>
             <div className="relative h-64 rounded-lg overflow-hidden">
-              <Image src="/gallery-3.jpg" alt="Momento destacado" fill className="object-cover hover:scale-105 transition duration-300" />
+              <Image src="https://images.pexels.com/photos/776113/pexels-photo-776113.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Fogata en el bosque" fill className="object-cover hover:scale-105 transition duration-300" />
             </div>
             <div className="relative h-64 rounded-lg overflow-hidden">
-              <Image src="/gallery-4.jpg" alt="Momento destacado" fill className="object-cover hover:scale-105 transition duration-300" />
+              <Image src="https://images.pexels.com/photos/5945915/pexels-photo-5945915.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Recolección de alimentos" fill className="object-cover hover:scale-105 transition duration-300" />
             </div>
             <div className="relative h-64 rounded-lg overflow-hidden">
-              <Image src="/gallery-5.jpg" alt="Momento destacado" fill className="object-cover hover:scale-105 transition duration-300" />
+              <Image src="https://images.pexels.com/photos/1503441/pexels-photo-1503441.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Talla en madera" fill className="object-cover hover:scale-105 transition duration-300" />
             </div>
             <div className="relative h-64 rounded-lg overflow-hidden">
-              <Image src="/gallery-6.jpg" alt="Momento destacado" fill className="object-cover hover:scale-105 transition duration-300" />
+              <Image src="https://images.pexels.com/photos/167699/pexels-photo-167699.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Herramientas de supervivencia" fill className="object-cover hover:scale-105 transition duration-300" />
             </div>
           </div>
           
@@ -334,7 +334,7 @@ export default function Home() {
 
       {/* CTA */}
       <section id="votacion" className="py-16 px-6 relative">
-        <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{ backgroundImage: 'url(/cta-background.jpg)' }}></div>
+        <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{ backgroundImage: 'url(https://images.pexels.com/photos/142497/pexels-photo-142497.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)' }}></div>
         <div className="max-w-4xl mx-auto relative z-10 text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
             ¡Participa en los <span className="text-amber-400">GnomoAwards</span>!
@@ -354,7 +354,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row justify-between items-center mb-8">
             <div className="flex items-center mb-6 md:mb-0">
               <Image 
-                src="/logo-gnomo-awards.svg" 
+                src="/kHF6v901.png" 
                 alt="Logo GnomoAwards" 
                 width={40} 
                 height={40} 
