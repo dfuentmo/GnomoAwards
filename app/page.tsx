@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import Link from "next/link"
 import { useState, useEffect } from "react"
@@ -6,16 +6,30 @@ import { FireEffect } from "@/components/fire-effect"
 import { EmberParticles } from "@/components/ember-particles"
 import { Button } from "@/components/ui/button"
 import { Twitch, Youtube } from "lucide-react"
+import { VOTING_END_DATE } from "@/data/voting"
 
 export default function HomePage() {
-  const votingEnds = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-
   const [rulesRead, setRulesRead] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number }>({ days: 0, hours: 0 })
 
   useEffect(() => {
     const hasRead = sessionStorage.getItem("rulesRead") === "true"
     if (hasRead) setRulesRead(true)
+  }, [])
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = Date.now()
+      const diff = VOTING_END_DATE.getTime() - now
+      const days = Math.max(Math.floor(diff / (1000 * 60 * 60 * 24)), 0)
+      const hours = Math.max(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), 0)
+      setTimeLeft({ days, hours })
+    }
+
+    updateTime()
+    const interval = setInterval(updateTime, 1000 * 60) // Actualiza cada minuto
+    return () => clearInterval(interval)
   }, [])
 
   const handleRulesClick = () => {
@@ -98,7 +112,7 @@ export default function HomePage() {
           <p className="mb-2 text-sm uppercase tracking-widest text-muted-foreground">
             La votación termina en
           </p>
-          <CountdownTimer targetDate={votingEnds} />
+          <CountdownTimer days={timeLeft.days} hours={timeLeft.hours} />
         </div>
 
 <footer className="mt-auto pt-12">
@@ -147,10 +161,7 @@ export default function HomePage() {
   )
 }
 
-function CountdownTimer({ targetDate }: { targetDate: Date }) {
-  const days = Math.floor((targetDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-  const hours = Math.floor(((targetDate.getTime() - Date.now()) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-
+function CountdownTimer({ days, hours }: { days: number; hours: number }) {
   return (
     <div className="flex gap-4 text-center">
       <div className="rounded-lg border border-amber-warm/30 bg-charcoal-light/50 px-4 py-2 backdrop-blur-sm">
