@@ -46,7 +46,7 @@ export default function HomePage() {
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-gradient-to-b from-charcoal via-forest-deep to-charcoal">
+    <main className="relative min-h-screen h-screen overflow-hidden bg-gradient-to-b from-charcoal via-forest-deep to-charcoal">
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0 bg-[url('/dark-forest-silhouette-night.jpg')] bg-cover bg-center" />
       </div>
@@ -54,7 +54,7 @@ export default function HomePage() {
       <FireEffect />
       <EmberParticles />
 
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 py-12">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 py-12">
         <div className="mb-8 text-center">
           <h1 className="mb-4 text-6xl font-bold tracking-wider text-gold-highlight drop-shadow-[0_0_30px_rgba(244,213,128,0.5)] md:text-8xl">
             GnomeAwards
@@ -72,40 +72,55 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="mb-8 flex gap-4">
-          {/* Botón de Normas */}
-          <Link href="/normas">
-            <Button
-              size="lg"
-              className={`glow-pulse bg-gradient-to-r from-amber-warm to-orange-burnt px-12 py-6 text-xl font-bold text-charcoal transition-all hover:scale-105 hover:from-gold-highlight hover:to-amber-warm ${
-                rulesRead ? "opacity-60" : ""
-              }`}
-              onClick={handleRulesClick}
-            >
-              Normas
-            </Button>
-          </Link>
-
-          {/* Botón Forjar mi voto */}
-          {rulesRead ? (
-            <Link href="/categories">
+        <div className="mb-8 flex flex-col gap-4 items-center">
+          <div className="flex gap-4">
+            {/* Botón de Normas */}
+            <Link href="/normas">
               <Button
                 size="lg"
-                asChild
-                className="glow-pulse bg-gradient-to-r from-amber-warm to-orange-burnt px-12 py-6 text-xl font-bold text-charcoal transition-all hover:scale-105 hover:from-gold-highlight hover:to-amber-warm"
+                className={`glow-pulse bg-gradient-to-r from-amber-warm to-orange-burnt px-12 py-6 text-xl font-bold text-charcoal transition-all hover:scale-105 hover:from-gold-highlight hover:to-amber-warm ${
+                  rulesRead ? "opacity-60" : ""
+                }`}
+                onClick={handleRulesClick}
               >
-                <span>Forjar mi voto</span>
+                Normas
               </Button>
             </Link>
-          ) : (
-            <Button
-              size="lg"
-              className="glow-pulse opacity-60 cursor-not-allowed bg-gradient-to-r from-amber-warm to-orange-burnt px-12 py-6 text-xl font-bold text-charcoal transition-all hover:scale-105 hover:from-gold-highlight hover:to-amber-warm"
-              onClick={handleVoteClick}
-            >
-              Forjar mi voto
-            </Button>
-          )}
+
+            {/* Botón Forjar mi voto */}
+            {rulesRead ? (
+              <Link href="/categories">
+                <Button
+                  size="lg"
+                  asChild
+                  className="glow-pulse bg-gradient-to-r from-amber-warm to-orange-burnt px-12 py-6 text-xl font-bold text-charcoal transition-all hover:scale-105 hover:from-gold-highlight hover:to-amber-warm"
+                >
+                  <span>Forjar mi voto</span>
+                </Button>
+              </Link>
+            ) : (
+              <Button
+                size="lg"
+                className="glow-pulse opacity-60 cursor-not-allowed bg-gradient-to-r from-amber-warm to-orange-burnt px-12 py-6 text-xl font-bold text-charcoal transition-all hover:scale-105 hover:from-gold-highlight hover:to-amber-warm"
+                onClick={handleVoteClick}
+              >
+                Forjar mi voto
+              </Button>
+            )}
+          </div>
+
+          {/* Botón Login con Twitch */}
+          <Button
+            size="lg"
+            className="glow-pulse mt-2 bg-purple-600 hover:bg-purple-700 text-white px-12 py-6 text-xl font-bold transition-all hover:scale-105"
+            onClick={() => {
+              const clientId = process.env.NEXT_PUBLIC_TWITCH_CLIENT_ID
+              const redirectUri = encodeURIComponent(process.env.NEXT_PUBLIC_TWITCH_REDIRECT_URI || "")
+              window.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=user:read:email`
+            }}
+          >
+            Login con Twitch
+          </Button>
         </div>
 
         <div className="mb-12 text-center flex flex-col items-center">
@@ -115,28 +130,32 @@ export default function HomePage() {
           <CountdownTimer days={timeLeft.days} hours={timeLeft.hours} />
         </div>
 
-<footer className="mt-auto pt-12">
-  <div className="flex items-center justify-center gap-6">
-    <a
-      href="https://twitch.tv/wildgnomos"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-parchment-dark transition-colors hover:text-primary"
-    >
-      <Twitch className="h-6 w-6" />
-    </a>
-    <a
-      href="https://www.youtube.com/@WildGnomosTV/"
-      className="text-parchment-dark transition-colors hover:text-primary"
-    >
-      <Youtube className="h-6 w-6" />
-    </a>
-  </div>
-  <p className="mt-4 text-center text-sm text-muted-foreground">
-    Tallado a mano, con amor y sin prisa, para la comunidad de Wildgnomos.
-  </p>
-</footer>
+        <footer className="mt-auto pt-12">
+          <div className="flex items-center justify-center gap-6">
+            <a
+              href="https://twitch.tv/wildgnomos"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Wildgnomos Twitch"
+              className="rounded-full p-2 text-parchment-dark transition-all transform hover:scale-105 hover:bg-gradient-to-r hover:from-amber-warm hover:to-orange-burnt hover:shadow-[0_0_30px_rgba(244,213,128,0.45)] hover:text-charcoal"
+            >
+              <Twitch className="h-6 w-6" />
+            </a>
 
+            <a
+              href="https://www.youtube.com/@WildGnomosTV/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Wildgnomos YouTube"
+              className="rounded-full p-2 text-parchment-dark transition-all transform hover:scale-105 hover:bg-gradient-to-r hover:from-amber-warm hover:to-orange-burnt hover:shadow-[0_0_30px_rgba(244,213,128,0.45)] hover:text-charcoal"
+            >
+              <Youtube className="h-6 w-6" />
+            </a>
+          </div>
+          <p className="mt-4 text-center text-sm text-muted-foreground">
+            Tallado a mano, con amor y sin prisa, para la comunidad de Wildgnomos.
+          </p>
+        </footer>
       </div>
 
       {/* Modal */}

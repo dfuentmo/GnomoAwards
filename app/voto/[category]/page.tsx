@@ -33,7 +33,7 @@ function TwitchClipEmbed({ clipId }: { clipId: string }) {
 }
 
 // Added: componente que obtiene la miniatura del clip vía oEmbed y muestra overlay de "play"
-function TwitchClipPreview({ clipId }: { clipId: string }) {
+function TwitchClipPreview({ clipId, onClick }: { clipId: string; onClick: () => void }) {
   const [thumbnail, setThumbnail] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -41,24 +41,28 @@ function TwitchClipPreview({ clipId }: { clipId: string }) {
     if (!clipId) return;
     let mounted = true;
 
+    const cachedThumbnail = localStorage.getItem(`thumbnail_${clipId}`);
+    if (cachedThumbnail) {
+      setThumbnail(cachedThumbnail);
+      setLoading(false);
+      return;
+    }
+
     async function fetchClipData() {
       try {
         const res = await fetch(`/api/twitch/clip?id=${encodeURIComponent(clipId)}`);
         const data = await res.json();
-
         const thumbRaw = data?.data?.[0]?.thumbnail_url;
+
         if (mounted && thumbRaw) {
-          // Normalizar placeholders habituales en las URLs de Twitch
           let thumb = String(thumbRaw)
             .replace('%{width}', '640')
-            .replace('%{height}', '360')
-            .replace(/\{width\}/g, '640')
-            .replace(/\{height\}/g, '360');
+            .replace('%{height}', '360');
 
-          // quitar query params que a veces rompen hotlinking
           const qIdx = thumb.indexOf('?');
           if (qIdx !== -1) thumb = thumb.slice(0, qIdx);
 
+          localStorage.setItem(`thumbnail_${clipId}`, thumb);
           setThumbnail(thumb);
         }
       } catch (err) {
@@ -89,7 +93,7 @@ function TwitchClipPreview({ clipId }: { clipId: string }) {
   }
 
   return (
-    <div className="h-48 w-full overflow-hidden rounded-lg relative group cursor-pointer">
+    <div className="h-48 w-full overflow-hidden rounded-lg relative group cursor-pointer" onClick={onClick}>
       <img
         src={thumbnail}
         alt="Twitch Clip Preview"
@@ -164,9 +168,8 @@ export default function VotePage({ params }: { params: Promise<{ category: strin
       const videoId = nom.src.split("v=")[1]
       return <img src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`} alt={nom.nombre} className="h-48 w-full object-cover transition-transform group-hover:scale-110" />
     } else if (nom.tipo === "twitch") {
-      // Preview del clip: usamos el componente que consulta oEmbed y muestra overlay de play
-      const clipId = nom.clipId || nom.src.split("/").pop()
-      return <TwitchClipPreview clipId={clipId} />
+      const clipId = nom.clipId || nom.src.split("/").pop();
+      return <TwitchClipPreview clipId={clipId} onClick={() => setModalContent({ tipo: 'twitch', clipId })} />;
     }
   }
 
@@ -201,13 +204,15 @@ export default function VotePage({ params }: { params: Promise<{ category: strin
 
       <div className="relative z-10 px-4 py-12">
         <div className="mx-auto mb-12 max-w-5xl text-center">
-          <Link href="/categories">
-            <Button variant="ghost" className="mb-6 text-parchment-dark hover:bg-charcoal-light/50 hover:text-parchment">
-              <ArrowLeft className="mr-2 h-4 w-4" /> Volver a categorías
-            </Button>
-          </Link>
-          <h1 className="mb-4 text-5xl font-bold tracking-wider text-gold-highlight drop-shadow-[0_0_30px_rgba(244,213,128,0.5)]">{categoria.name}</h1>
-          <p className="text-lg text-parchment-dark max-w-2xl mx-auto">{categoria.description}</p>
+          <div className="flex items-center justify-between">
+            <Link href="/categories">
+              <Button variant="ghost" className="text-parchment-dark hover:bg-charcoal-light/50 hover:text-parchment">
+                <ArrowLeft className="mr-2 h-4 w-4" /> Volver a categorías
+              </Button>
+            </Link>
+          </div>
+          <h1 className="mt-4 text-5xl font-bold tracking-wider text-gold-highlight drop-shadow-[0_0_30px_rgba(244,213,128,0.5)]">{categoria.name}</h1>
+          <p className="mt-4 text-lg text-parchment-dark max-w-2xl mx-auto">{categoria.description}</p>
         </div>
 
         <div className="mx-auto mb-10 grid max-w-6xl gap-8 md:grid-cols-2">
@@ -220,7 +225,7 @@ export default function VotePage({ params }: { params: Promise<{ category: strin
               } ${haVotado ? "cursor-not-allowed opacity-50" : ""}`}
             >
               {seleccion === nom.id && (
-                <div className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-gold-highlight">
+                <div className="absolute right-4 top-4 z-50 flex h-8 w-8 items-center justify-center rounded-full bg-gold-highlight shadow-[0_0_20px_rgba(244,213,128,0.65)]">
                   <Check className="h-5 w-5 text-charcoal" />
                 </div>
               )}
@@ -272,7 +277,7 @@ export default function VotePage({ params }: { params: Promise<{ category: strin
           >
             <Button
               size="sm"
-              className="absolute right-0 top-0 m-2 bg-gradient-to-r from-amber-warm to-orange-burnt text-charcoal hover:scale-105 hover:from-gold-highlight hover:to-amber-warm"
+              className="absolute right-0 top-0 m-2 bg-gradient-to-r from-amber-warm to-orange-burnt text-charcoal hover:scale-105 hover:from-gold-highlight hover:to-amber-warm z-50"
               onClick={() => setModalContent(null)}
             >
               Cerrar
@@ -282,5 +287,5 @@ export default function VotePage({ params }: { params: Promise<{ category: strin
         </div>
       )}
     </main>
-  )
+  );
 }
