@@ -110,7 +110,7 @@ export default function HomePage() {
           </div>
 
           {/* Botón Login con Twitch */}
-          <Button
+          {/* <Button
             size="lg"
             className="glow-pulse mt-2 bg-purple-600 hover:bg-purple-700 text-white px-12 py-6 text-xl font-bold transition-all hover:scale-105"
             onClick={() => {
@@ -120,7 +120,7 @@ export default function HomePage() {
             }}
           >
             Login con Twitch
-          </Button>
+          </Button> */}
         </div>
 
         <div className="mb-12 text-center flex flex-col items-center">
